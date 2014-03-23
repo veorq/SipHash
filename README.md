@@ -22,8 +22,20 @@ Running
   $ make
 ```
 
-will compile and run sanity checks (test vectors) for SipHash-2-4, the
-default version of SipHash.
+will build sanity checks (test vectors) for SipHash-2-4, the default
+version of SipHash:
+
+```C
+  ./siphash24_test
+```
+
+verifies 64 test vectors, and
+
+```C
+  ./siphash24_test_debug
+```
+
+does the same and prints intermediate values.
 
 The code can be adapted to implement SipHash-*c*-*d*, the version of SipHash
 with *c* compression rounds and *d* finalization rounds, by tweaking the
