@@ -107,7 +107,7 @@ int test_vectors()
 #define MAXLEN 64
   u8 in[MAXLEN], out[8], k[16];
   int i;
-  int ok = 1;
+  int fails = 0;
 
   for( i = 0; i < 16; ++i ) k[i] = i;
 
@@ -119,20 +119,18 @@ int test_vectors()
     if ( memcmp( out, vectors[i], 8 ) )
     {
       printf( "test vector failed for %d bytes\n", i );
-      ok = 0;
+      fails++; 
     }
   }
 
-  return ok;
+  return fails;
 }
 
 
 int main()
 {
-  if ( test_vectors() )
-    printf( "test vectors ok\n" );
-  else
-    printf( "test vectors fail\n" );
+  if ( !test_vectors() )
+    printf( "test vector ok\n" );
 
   return 0;
 }

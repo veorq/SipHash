@@ -31,7 +31,7 @@ version of SipHash:
 
 verifies 64 test vectors, and
 
-```C
+```c
   ./siphash24_test_debug
 ```
 
@@ -49,7 +49,8 @@ lines
 License
 -------
 
-The SipHash reference code is released under [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/), a public
+The SipHash reference code is released under [CC0
+license](https://creativecommons.org/publicdomain/zero/1.0/), a public
 domain-like licence.
 
 
