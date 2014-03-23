@@ -1,7 +1,7 @@
 /*
    SipHash reference C implementation
 
-   Written in 2012 by 
+   Written in 2012 by
    Jean-Philippe Aumasson <jeanphilippe.aumasson@gmail.com>
    Daniel J. Bernstein <djb@cr.yp.to>
 
@@ -20,7 +20,7 @@ typedef uint32_t u32;
 typedef uint8_t u8;
 
 extern int  siphash( unsigned char *out, const unsigned char *in,
-    unsigned long long inlen, const unsigned char *k );
+                     unsigned long long inlen, const unsigned char *k );
 
 /*
    SipHash-2-4 output with
@@ -131,7 +131,7 @@ int main()
 {
   if ( test_vectors() )
     printf( "test vectors ok\n" );
-  else 
+  else
     printf( "test vectors fail\n" );
 
   return 0;
