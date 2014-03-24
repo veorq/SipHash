@@ -19,7 +19,7 @@ Usage
 Running
 
 ```sh
-  $ make
+  make
 ```
 
 will build sanity checks (test vectors) for SipHash-2-4, the default
