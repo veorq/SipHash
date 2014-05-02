@@ -46,12 +46,15 @@ lines
 ```
 
 
-License
--------
+Intellectual property
+---------------------
 
 The SipHash reference code is released under [CC0
 license](https://creativecommons.org/publicdomain/zero/1.0/), a public
 domain-like licence.
+
+We aren't aware of any patents or patent applications relevant to
+SipHash, and we aren't planning to apply for any.
 
 
 References
