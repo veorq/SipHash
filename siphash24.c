@@ -70,6 +70,10 @@ int  siphash( unsigned char *out, const unsigned char *in, unsigned long long in
   v1 ^= k1;
   v0 ^= k0;
 
+#ifdef DOUBLE
+  v1 ^= 0xee;
+#endif
+
   for ( ; in != end; in += 8 )
   {
     m = U8TO64_LE( in );
@@ -124,12 +128,27 @@ int  siphash( unsigned char *out, const unsigned char *in, unsigned long long in
   printf( "(%3d) v2 %08x %08x\n", ( int )inlen, ( u32 )( v2 >> 32 ), ( u32 )v2 );
   printf( "(%3d) v3 %08x %08x\n", ( int )inlen, ( u32 )( v3 >> 32 ), ( u32 )v3 );
 #endif
+
+#ifndef DOUBLE
   v2 ^= 0xff;
+#else
+  v2 ^= 0xee;
+#endif
 
   for( i=0; i<dROUNDS; ++i ) SIPROUND;
 
   b = v0 ^ v1 ^ v2  ^ v3;
   U64TO8_LE( out, b );
+
+#ifdef DOUBLE
+  v1 ^= 0xdd;
+
+  for( i=0; i<dROUNDS; ++i ) SIPROUND;
+
+  b = v0 ^ v1 ^ v2  ^ v3;
+  U64TO8_LE( out+8, b );
+#endif
+
   return 0;
 }
 

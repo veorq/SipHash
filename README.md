@@ -31,8 +31,8 @@ version of SipHash:
 
 verifies 64 test vectors, and
 
-```c
-  ./siphash24_test_debug
+```C
+  ./siphash24_debug
 ```
 
 does the same and prints intermediate values.
@@ -44,6 +44,27 @@ lines
 #define cROUNDS 2
 #define dROUNDS 4
 ```
+
+Obviously, if the number of rounds is modified then the test vectors
+won't verify.
+
+
+128-bit tags (experimental)
+---------------------------
+
+In addition to the original SipHash, which returns 64-bit tags, this
+reference code implements an experimental mode to return 128-bit tags.
+This mode is enable when the constant `DOUBLE` is defined.
+
+Running 
+
+```sh
+  make double
+```
+
+will build `siphash24_test_double` and `siphash24_debug_double`.
+
+The **128-bit mode is experimental**, use at your own risk. 
 
 
 Intellectual property
