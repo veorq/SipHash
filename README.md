@@ -54,7 +54,7 @@ won't verify.
 
 In addition to the original SipHash, which returns 64-bit tags, this
 reference code implements an experimental mode to return 128-bit tags.
-This mode is enable when the constant `DOUBLE` is defined.
+This mode is enabled when the constant `DOUBLE` is defined.
 
 Running 
 
