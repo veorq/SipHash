@@ -16,10 +16,6 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef uint64_t u64;
-typedef uint32_t u32;
-typedef uint8_t u8;
-
 #define MAXLEN 64
 #define KEYLEN 16
 #ifndef DOUBLE
@@ -29,8 +25,7 @@ typedef uint8_t u8;
 #endif
 
 
-extern int  siphash( unsigned char *out, const unsigned char *in,
-                     unsigned long long inlen, const unsigned char *k );
+extern int  siphash( uint8_t *out, const uint8_t *in, uint64_t inlen, const uint8_t *k );
 
 /*
    SipHash-2-4 output with
@@ -43,7 +38,7 @@ extern int  siphash( unsigned char *out, const unsigned char *in,
    ...
    in = 00 01 02 ... 3e (63 bytes)
  */
-const u8 vectors[MAXLEN][HASHLEN] =
+const uint8_t vectors[MAXLEN][HASHLEN] =
 {
 #ifndef DOUBLE
   { 0x31, 0x0e, 0x0e, 0xdd, 0x47, 0xdb, 0x6f, 0x72, },
@@ -181,7 +176,7 @@ const u8 vectors[MAXLEN][HASHLEN] =
 
 int test_vectors()
 {
-  u8 in[MAXLEN], out[HASHLEN], k[KEYLEN];
+  uint8_t in[MAXLEN], out[HASHLEN], k[KEYLEN];
   int i;
   int fails = 0;
 

@@ -14,32 +14,29 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-typedef uint64_t u64;
-typedef uint32_t u32;
-typedef uint8_t u8;
 
 #define cROUNDS 2
 #define dROUNDS 4
 
-#define ROTL(x,b) (u64)( ((x) << (b)) | ( (x) >> (64 - (b))) )
+#define ROTL(x,b) (uint64_t)( ((x) << (b)) | ( (x) >> (64 - (b))) )
 
 #define U32TO8_LE(p, v)         \
-  (p)[0] = (u8)((v)      ); (p)[1] = (u8)((v) >>  8); \
-(p)[2] = (u8)((v) >> 16); (p)[3] = (u8)((v) >> 24);
+  (p)[0] = (uint8_t)((v)      ); (p)[1] = (uint8_t)((v) >>  8); \
+(p)[2] = (uint8_t)((v) >> 16); (p)[3] = (uint8_t)((v) >> 24);
 
 #define U64TO8_LE(p, v)         \
-  U32TO8_LE((p),     (u32)((v)      ));   \
-U32TO8_LE((p) + 4, (u32)((v) >> 32));
+  U32TO8_LE((p),     (uint32_t)((v)      ));   \
+U32TO8_LE((p) + 4, (uint32_t)((v) >> 32));
 
 #define U8TO64_LE(p) \
-  (((u64)((p)[0])      ) | \
-   ((u64)((p)[1]) <<  8) | \
-   ((u64)((p)[2]) << 16) | \
-   ((u64)((p)[3]) << 24) | \
-   ((u64)((p)[4]) << 32) | \
-   ((u64)((p)[5]) << 40) | \
-   ((u64)((p)[6]) << 48) | \
-   ((u64)((p)[7]) << 56))
+  (((uint64_t)((p)[0])      ) | \
+   ((uint64_t)((p)[1]) <<  8) | \
+   ((uint64_t)((p)[2]) << 16) | \
+   ((uint64_t)((p)[3]) << 24) | \
+   ((uint64_t)((p)[4]) << 32) | \
+   ((uint64_t)((p)[5]) << 40) | \
+   ((uint64_t)((p)[6]) << 48) | \
+   ((uint64_t)((p)[7]) << 56))
 
 #define SIPROUND            \
   do {              \
@@ -50,21 +47,21 @@ U32TO8_LE((p) + 4, (u32)((v) >> 32));
   } while(0)
 
 /* SipHash-2-4 */
-int  siphash( unsigned char *out, const unsigned char *in, unsigned long long inlen, const unsigned char *k )
+int  siphash( uint8_t *out, const uint8_t *in, uint64_t inlen, const uint8_t *k )
 {
   /* "somepseudorandomlygeneratedbytes" */
-  u64 v0 = 0x736f6d6570736575ULL;
-  u64 v1 = 0x646f72616e646f6dULL;
-  u64 v2 = 0x6c7967656e657261ULL;
-  u64 v3 = 0x7465646279746573ULL;
-  u64 b;
-  u64 k0 = U8TO64_LE( k );
-  u64 k1 = U8TO64_LE( k + 8 );
-  u64 m;
+  uint64_t v0 = 0x736f6d6570736575ULL;
+  uint64_t v1 = 0x646f72616e646f6dULL;
+  uint64_t v2 = 0x6c7967656e657261ULL;
+  uint64_t v3 = 0x7465646279746573ULL;
+  uint64_t b;
+  uint64_t k0 = U8TO64_LE( k );
+  uint64_t k1 = U8TO64_LE( k + 8 );
+  uint64_t m;
   int i;
-  const u8 *end = in + inlen - ( inlen % sizeof( u64 ) );
+  const uint8_t *end = in + inlen - ( inlen % sizeof( uint64_t ) );
   const int left = inlen & 7;
-  b = ( ( u64 )inlen ) << 56;
+  b = ( ( uint64_t )inlen ) << 56;
   v3 ^= k1;
   v2 ^= k0;
   v1 ^= k1;
@@ -78,11 +75,11 @@ int  siphash( unsigned char *out, const unsigned char *in, unsigned long long in
   {
     m = U8TO64_LE( in );
 #ifdef DEBUG
-    printf( "(%3d) v0 %08x %08x\n", ( int )inlen, ( u32 )( v0 >> 32 ), ( u32 )v0 );
-    printf( "(%3d) v1 %08x %08x\n", ( int )inlen, ( u32 )( v1 >> 32 ), ( u32 )v1 );
-    printf( "(%3d) v2 %08x %08x\n", ( int )inlen, ( u32 )( v2 >> 32 ), ( u32 )v2 );
-    printf( "(%3d) v3 %08x %08x\n", ( int )inlen, ( u32 )( v3 >> 32 ), ( u32 )v3 );
-    printf( "(%3d) compress %08x %08x\n", ( int )inlen, ( u32 )( m >> 32 ), ( u32 )m );
+    printf( "(%3d) v0 %08x %08x\n", ( int )inlen, ( uint32_t )( v0 >> 32 ), ( uint32_t )v0 );
+    printf( "(%3d) v1 %08x %08x\n", ( int )inlen, ( uint32_t )( v1 >> 32 ), ( uint32_t )v1 );
+    printf( "(%3d) v2 %08x %08x\n", ( int )inlen, ( uint32_t )( v2 >> 32 ), ( uint32_t )v2 );
+    printf( "(%3d) v3 %08x %08x\n", ( int )inlen, ( uint32_t )( v3 >> 32 ), ( uint32_t )v3 );
+    printf( "(%3d) compress %08x %08x\n", ( int )inlen, ( uint32_t )( m >> 32 ), ( uint32_t )m );
 #endif
     v3 ^= m;
 
@@ -93,29 +90,29 @@ int  siphash( unsigned char *out, const unsigned char *in, unsigned long long in
 
   switch( left )
   {
-  case 7: b |= ( ( u64 )in[ 6] )  << 48;
+  case 7: b |= ( ( uint64_t )in[ 6] )  << 48;
 
-  case 6: b |= ( ( u64 )in[ 5] )  << 40;
+  case 6: b |= ( ( uint64_t )in[ 5] )  << 40;
 
-  case 5: b |= ( ( u64 )in[ 4] )  << 32;
+  case 5: b |= ( ( uint64_t )in[ 4] )  << 32;
 
-  case 4: b |= ( ( u64 )in[ 3] )  << 24;
+  case 4: b |= ( ( uint64_t )in[ 3] )  << 24;
 
-  case 3: b |= ( ( u64 )in[ 2] )  << 16;
+  case 3: b |= ( ( uint64_t )in[ 2] )  << 16;
 
-  case 2: b |= ( ( u64 )in[ 1] )  <<  8;
+  case 2: b |= ( ( uint64_t )in[ 1] )  <<  8;
 
-  case 1: b |= ( ( u64 )in[ 0] ); break;
+  case 1: b |= ( ( uint64_t )in[ 0] ); break;
 
   case 0: break;
   }
 
 #ifdef DEBUG
-  printf( "(%3d) v0 %08x %08x\n", ( int )inlen, ( u32 )( v0 >> 32 ), ( u32 )v0 );
-  printf( "(%3d) v1 %08x %08x\n", ( int )inlen, ( u32 )( v1 >> 32 ), ( u32 )v1 );
-  printf( "(%3d) v2 %08x %08x\n", ( int )inlen, ( u32 )( v2 >> 32 ), ( u32 )v2 );
-  printf( "(%3d) v3 %08x %08x\n", ( int )inlen, ( u32 )( v3 >> 32 ), ( u32 )v3 );
-  printf( "(%3d) padding   %08x %08x\n", ( int )inlen, ( u32 )( b >> 32 ), ( u32 )b );
+  printf( "(%3d) v0 %08x %08x\n", ( int )inlen, ( uint32_t )( v0 >> 32 ), ( uint32_t )v0 );
+  printf( "(%3d) v1 %08x %08x\n", ( int )inlen, ( uint32_t )( v1 >> 32 ), ( uint32_t )v1 );
+  printf( "(%3d) v2 %08x %08x\n", ( int )inlen, ( uint32_t )( v2 >> 32 ), ( uint32_t )v2 );
+  printf( "(%3d) v3 %08x %08x\n", ( int )inlen, ( uint32_t )( v3 >> 32 ), ( uint32_t )v3 );
+  printf( "(%3d) padding   %08x %08x\n", ( int )inlen, ( uint32_t )( b >> 32 ), ( uint32_t )b );
 #endif
   v3 ^= b;
 
@@ -123,10 +120,10 @@ int  siphash( unsigned char *out, const unsigned char *in, unsigned long long in
 
   v0 ^= b;
 #ifdef DEBUG
-  printf( "(%3d) v0 %08x %08x\n", ( int )inlen, ( u32 )( v0 >> 32 ), ( u32 )v0 );
-  printf( "(%3d) v1 %08x %08x\n", ( int )inlen, ( u32 )( v1 >> 32 ), ( u32 )v1 );
-  printf( "(%3d) v2 %08x %08x\n", ( int )inlen, ( u32 )( v2 >> 32 ), ( u32 )v2 );
-  printf( "(%3d) v3 %08x %08x\n", ( int )inlen, ( u32 )( v3 >> 32 ), ( u32 )v3 );
+  printf( "(%3d) v0 %08x %08x\n", ( int )inlen, ( uint32_t )( v0 >> 32 ), ( uint32_t )v0 );
+  printf( "(%3d) v1 %08x %08x\n", ( int )inlen, ( uint32_t )( v1 >> 32 ), ( uint32_t )v1 );
+  printf( "(%3d) v2 %08x %08x\n", ( int )inlen, ( uint32_t )( v2 >> 32 ), ( uint32_t )v2 );
+  printf( "(%3d) v3 %08x %08x\n", ( int )inlen, ( uint32_t )( v3 >> 32 ), ( uint32_t )v3 );
 #endif
 
 #ifndef DOUBLE
