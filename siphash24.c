@@ -1,8 +1,8 @@
 /*
    SipHash reference C implementation
 
-   Copyright (c) 2012 Jean-Philippe Aumasson <jeanphilippe.aumasson@gmail.com>
-   Copyright (c) 2012 Daniel J. Bernstein <djb@cr.yp.to>
+   Copyright (c) 2012-2014 Jean-Philippe Aumasson <jeanphilippe.aumasson@gmail.com>
+   Copyright (c) 2012-2014 Daniel J. Bernstein <djb@cr.yp.to>
 
    To the extent possible under law, the author(s) have dedicated all copyright
    and related and neighboring rights to this software to the public domain
@@ -101,19 +101,12 @@ int  siphash( uint8_t *out, const uint8_t *in, uint64_t inlen, const uint8_t *k 
   switch( left )
   {
   case 7: b |= ( ( uint64_t )in[ 6] )  << 48;
-
   case 6: b |= ( ( uint64_t )in[ 5] )  << 40;
-
   case 5: b |= ( ( uint64_t )in[ 4] )  << 32;
-
   case 4: b |= ( ( uint64_t )in[ 3] )  << 24;
-
   case 3: b |= ( ( uint64_t )in[ 2] )  << 16;
-
   case 2: b |= ( ( uint64_t )in[ 1] )  <<  8;
-
   case 1: b |= ( ( uint64_t )in[ 0] ); break;
-
   case 0: break;
   }
 
