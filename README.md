@@ -64,6 +64,10 @@ Running
 
 will build `siphash24_test_double` and `siphash24_debug_double`.
 
+SipHash with 128-bit tags targets PRF security with 128-bit key and
+128-bit tags. In particular, any attack trying up to 2^s should
+succeed with probability at most 2^(s - 128).
+
 The **128-bit mode is experimental**, use at your own risk. 
 
 
