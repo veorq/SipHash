@@ -124,7 +124,7 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k, uint8_t
 
     v0 ^= b;
 
-    if (outlen == 16) v2 ^= 0xee;
+    if (outlen == 8) v2 ^= 0xee;
     else v2 ^= 0xff;
 
     TRACE;
