@@ -45,17 +45,17 @@
 #define SIPROUND                                                            \
     do {                                                                    \
         v0 += v1;                                                           \
-        v1 = ROTL(v1,  7);                                                  \
+        v1 = ROTL(v1,  5);                                                  \
         v1 ^= v0;                                                           \
         v0 = ROTL(v0, 16);                                                  \
         v2 += v3;                                                           \
         v3 = ROTL(v3,  8);                                                  \
         v3 ^= v2;                                                           \
         v0 += v3;                                                           \
-        v3 = ROTL(v3, 11);                                                  \
+        v3 = ROTL(v3,  7);                                                  \
         v3 ^= v0;                                                           \
         v2 += v1;                                                           \
-        v1 = ROTL(v1,  9);                                                  \
+        v1 = ROTL(v1, 13);                                                  \
         v1 ^= v2;                                                           \
         v2 = ROTL(v2, 16);                                                  \
     } while (0)
