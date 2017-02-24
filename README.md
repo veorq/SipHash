@@ -23,9 +23,9 @@ Running
 will build tests for 
 
 * SipHash-2-4, the default version of SipHash returning 64-bit tags
-* SipHash-2-4  with doubled tag size, i.e. 128-bit tags
-* HalfSipHash-2-4, an **experimental** version of SipHash working with
-  32-bit words and returning 32-bit tags by default
+* SipHash-2-4 with doubled tag size, i.e. 128-bit tags
+* HalfSipHash-2-4, a version of SipHash working with 32-bit words and
+  returning 32-bit tags by default
 * HalfSipHash-2-4 with doubled tag size, i.e. 64-bit tags
 
 
