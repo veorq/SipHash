@@ -90,9 +90,7 @@ int main() {
 
             if (memcmp(out, v + (i * len), len)) {
                 printf("fail for %d bytes\n", i);
-#ifndef GETVECTORS
                 fails++;
-#endif
             }
 #endif
         }
