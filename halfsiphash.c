@@ -70,8 +70,8 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
     assert((outlen == 4) || (outlen == 8));
     uint32_t v0 = 0;
     uint32_t v1 = 0;
-    uint32_t v2 = 0x6c796765;
-    uint32_t v3 = 0x74656462;
+    uint32_t v2 = UINT32_C(0x6c796765);
+    uint32_t v3 = UINT32_C(0x74656462);
     uint32_t k0 = U8TO32_LE(k);
     uint32_t k1 = U8TO32_LE(k + 4);
     uint32_t m;
