@@ -19,8 +19,12 @@
 #include <string.h>
 
 /* default: SipHash-2-4 */
-#define cROUNDS 2
-#define dROUNDS 4
+#ifndef cROUNDS
+    #define cROUNDS 2
+#endif
+#ifndef dROUNDS
+    #define dROUNDS 4
+#endif
 
 #define ROTL(x, b) (uint32_t)(((x) << (b)) | ((x) >> (32 - (b))))
 
