@@ -46,7 +46,9 @@ size_t lengths[4] = {8, 16, 4, 8};
 int main() {
     uint8_t in[64], out[16], k[16];
     int i;
+#ifndef GETVECTORS
     int fails = 0;
+#endif
 
     for (i = 0; i < 16; ++i)
         k[i] = i;
@@ -98,8 +100,9 @@ int main() {
 #else
         if (!fails)
             printf("OK\n");
-#endif
+
         fails = 0;
+#endif
     }
 
     return 0;
