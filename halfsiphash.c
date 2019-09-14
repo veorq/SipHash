@@ -67,27 +67,27 @@
 int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
                 uint8_t *out, const size_t outlen) {
 
-    assert((outlen == 4) || (outlen == 8));
+    assert((outlen == sizeof(uint32_t)) || (outlen == sizeof(uint64_t)));
     uint32_t v0 = 0;
     uint32_t v1 = 0;
     uint32_t v2 = UINT32_C(0x6c796765);
     uint32_t v3 = UINT32_C(0x74656462);
     uint32_t k0 = U8TO32_LE(k);
-    uint32_t k1 = U8TO32_LE(k + 4);
+    uint32_t k1 = U8TO32_LE(k + sizeof(uint32_t));
     uint32_t m;
     int i;
     const uint8_t *end = in + inlen - (inlen % sizeof(uint32_t));
-    const int left = inlen & 3;
+    const int left = inlen & (sizeof(uint32_t) - 1);
     uint32_t b = ((uint32_t)inlen) << 24;
     v3 ^= k1;
     v2 ^= k0;
     v1 ^= k1;
     v0 ^= k0;
 
-    if (outlen == 8)
+    if (outlen == sizeof(uint64_t))
         v1 ^= 0xee;
 
-    for (; in != end; in += 4) {
+    for (; in != end; in += sizeof(uint32_t)) {
         m = U8TO32_LE(in);
         v3 ^= m;
 
@@ -118,7 +118,7 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
 
     v0 ^= b;
 
-    if (outlen == 8)
+    if (outlen == sizeof(uint64_t))
         v2 ^= 0xee;
     else
         v2 ^= 0xff;
@@ -130,7 +130,7 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
     b = v1 ^ v3;
     U32TO8_LE(out, b);
 
-    if (outlen == 4)
+    if (outlen == sizeof(uint32_t))
         return 0;
 
     v1 ^= 0xdd;
@@ -140,7 +140,7 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
         SIPROUND;
 
     b = v1 ^ v3;
-    U32TO8_LE(out + 4, b);
+    U32TO8_LE(out + sizeof(uint32_t), b);
 
     return 0;
 }
