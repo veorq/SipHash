@@ -42,12 +42,19 @@ verifies 64 test vectors, and
 does the same and prints intermediate values.
 
 The code can be adapted to implement SipHash-*c*-*d*, the version of SipHash
-with *c* compression rounds and *d* finalization rounds, by tweaking the
-lines
-```C
-#define cROUNDS 2
-#define dROUNDS 4
+with *c* compression rounds and *d* finalization rounds, by defining `cROUNDS`
+or `dROUNDS` when compiling.  This can be done with `-D` command line arguments
+to many compilers such as below.
+
+```sh
+gcc -Wall --std=c99 -DcROUNDS=2 -DdROUNDS=4 siphash.c halfsiphash.c test.c -o test
 ```
+
+The `makefile` also takes *c* and *d* rounds values as parameters.
+
+```sh
+make cROUNDS=2 dROUNDS=4
+``` 
 
 Obviously, if the number of rounds is modified then the test vectors
 won't verify.

@@ -21,8 +21,12 @@
 #include <string.h>
 
 /* default: SipHash-2-4 */
-#define cROUNDS 2
-#define dROUNDS 4
+#ifndef cROUNDS
+    #define cROUNDS 2
+#endif
+#ifndef dROUNDS
+    #define dROUNDS 4
+#endif
 
 #define OCTETS_PER_BYTE (8 / CHAR_BIT)
 
