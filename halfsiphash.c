@@ -14,6 +14,8 @@
    <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 #include <assert.h>
+#include <inttypes.h>
+#include <limits.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -22,17 +24,30 @@
 #define cROUNDS 2
 #define dROUNDS 4
 
+#define OCTETS_PER_BYTE (8 / CHAR_BIT)
+
 #define ROTL(x, b) (uint32_t)(((x) << (b)) | ((x) >> (32 - (b))))
 
-#define U32TO8_LE(p, v)                                                        \
-    (p)[0] = (uint8_t)((v));                                                   \
-    (p)[1] = (uint8_t)((v) >> 8);                                              \
-    (p)[2] = (uint8_t)((v) >> 16);                                             \
-    (p)[3] = (uint8_t)((v) >> 24);
+#if CHAR_BIT == 8
+    #define CHARTO32_LE(p)                                                     \
+        (((uint32_t)((p)[0])) | ((uint32_t)((p)[1]) << 8) |                    \
+         ((uint32_t)((p)[2]) << 16) | ((uint32_t)((p)[3]) << 24))
 
-#define U8TO32_LE(p)                                                           \
-    (((uint32_t)((p)[0])) | ((uint32_t)((p)[1]) << 8) |                        \
-     ((uint32_t)((p)[2]) << 16) | ((uint32_t)((p)[3]) << 24))
+    #define U32TOCHAR_LE(p, v)                                                 \
+        (p)[0] = (char)((v));                                                  \
+        (p)[1] = (char)((v) >> 8);                                             \
+        (p)[2] = (char)((v) >> 16);                                            \
+        (p)[3] = (char)((v) >> 24);
+#elif CHAR_BIT == 16
+    #define CHARTO32_LE(p)                                                     \
+        (((uint32_t)((p)[0])) | ((uint32_t)((p)[1]) << 16))
+
+    #define U32TOCHAR_LE(p, v)                                                 \
+        (p)[0] = (char)((v));                                                  \
+        (p)[1] = (char)((v) >> 16);
+#else
+    #error Unsupported byte size value (checked via CHAR_BIT)
+#endif
 
 #define SIPROUND                                                               \
     do {                                                                       \
@@ -55,40 +70,40 @@
 #ifdef DEBUG
 #define TRACE                                                                  \
     do {                                                                       \
-        printf("(%3d) v0 %08x\n", (int)inlen, v0);                             \
-        printf("(%3d) v1 %08x\n", (int)inlen, v1);                             \
-        printf("(%3d) v2 %08x\n", (int)inlen, v2);                             \
-        printf("(%3d) v3 %08x\n", (int)inlen, v3);                             \
+        printf("(%3zu) v0 %08"PRIx32"\n", inlen, v0);                          \
+        printf("(%3zu) v1 %08"PRIx32"\n", inlen, v1);                          \
+        printf("(%3zu) v2 %08"PRIx32"\n", inlen, v2);                          \
+        printf("(%3zu) v3 %08"PRIx32"\n", inlen, v3);                          \
     } while (0)
 #else
 #define TRACE
 #endif
 
-int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
-                uint8_t *out, const size_t outlen) {
 
-    assert((outlen == 4) || (outlen == 8));
+int halfsiphash(const char *in, const size_t inlen, const char *k,
+                char *out, const size_t outlen) {
+    assert((outlen == sizeof(uint32_t)) || (outlen == sizeof(uint64_t)));
     uint32_t v0 = 0;
     uint32_t v1 = 0;
     uint32_t v2 = UINT32_C(0x6c796765);
     uint32_t v3 = UINT32_C(0x74656462);
-    uint32_t k0 = U8TO32_LE(k);
-    uint32_t k1 = U8TO32_LE(k + 4);
+    uint32_t k0 = CHARTO32_LE(k);
+    uint32_t k1 = CHARTO32_LE(k + sizeof(uint32_t));
     uint32_t m;
     int i;
-    const uint8_t *end = in + inlen - (inlen % sizeof(uint32_t));
-    const int left = inlen & 3;
+    const char *end = in + inlen - (inlen % sizeof(uint32_t));
+    const int left = inlen & (sizeof(uint32_t) - 1);
     uint32_t b = ((uint32_t)inlen) << 24;
     v3 ^= k1;
     v2 ^= k0;
     v1 ^= k1;
     v0 ^= k0;
 
-    if (outlen == 8)
+    if (outlen == sizeof(uint64_t))
         v1 ^= 0xee;
 
-    for (; in != end; in += 4) {
-        m = U8TO32_LE(in);
+    for (; in != end; in += sizeof(uint32_t)) {
+        m = CHARTO32_LE(in);
         v3 ^= m;
 
         TRACE;
@@ -98,6 +113,7 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
         v0 ^= m;
     }
 
+#if CHAR_BIT == 8
     switch (left) {
     case 3:
         b |= ((uint32_t)in[2]) << 16;
@@ -109,6 +125,15 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
     case 0:
         break;
     }
+#elif CHAR_BIT == 16
+    switch (left) {
+    case 1:
+        b |= ((uint32_t)in[0]);
+        break;
+    case 0:
+        break;
+    }
+#endif
 
     v3 ^= b;
 
@@ -118,7 +143,7 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
 
     v0 ^= b;
 
-    if (outlen == 8)
+    if (outlen == sizeof(uint64_t))
         v2 ^= 0xee;
     else
         v2 ^= 0xff;
@@ -128,9 +153,9 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
         SIPROUND;
 
     b = v1 ^ v3;
-    U32TO8_LE(out, b);
+    U32TOCHAR_LE(out, b);
 
-    if (outlen == 4)
+    if (outlen == sizeof(uint32_t))
         return 0;
 
     v1 ^= 0xdd;
@@ -140,7 +165,7 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
         SIPROUND;
 
     b = v1 ^ v3;
-    U32TO8_LE(out + 4, b);
+    U32TOCHAR_LE(out + sizeof(uint32_t), b);
 
     return 0;
 }
