@@ -34,22 +34,22 @@
 #define ROTL(x, b) (uint32_t)(((x) << (b)) | ((x) >> (32 - (b))))
 
 #if CHAR_BIT == 8
-    #define CHARTO32_LE(p)                                                     \
-        (((uint32_t)((p)[0])) | ((uint32_t)((p)[1]) << 8) |                    \
-         ((uint32_t)((p)[2]) << 16) | ((uint32_t)((p)[3]) << 24))
-
     #define U32TOCHAR_LE(p, v)                                                 \
         (p)[0] = (char)((v));                                                  \
         (p)[1] = (char)((v) >> 8);                                             \
         (p)[2] = (char)((v) >> 16);                                            \
         (p)[3] = (char)((v) >> 24);
-#elif CHAR_BIT == 16
-    #define CHARTO32_LE(p)                                                     \
-        (((uint32_t)((p)[0])) | ((uint32_t)((p)[1]) << 16))
 
+    #define CHARTO32_LE(p)                                                     \
+        (((uint32_t)((p)[0])) | ((uint32_t)((p)[1]) << 8) |                    \
+         ((uint32_t)((p)[2]) << 16) | ((uint32_t)((p)[3]) << 24))
+#elif CHAR_BIT == 16
     #define U32TOCHAR_LE(p, v)                                                 \
         (p)[0] = (char)((v));                                                  \
         (p)[1] = (char)((v) >> 16);
+
+    #define CHARTO32_LE(p)                                                     \
+        (((uint32_t)((p)[0])) | ((uint32_t)((p)[1]) << 16))
 #else
     #error Unsupported byte size value (checked via CHAR_BIT)
 #endif
@@ -84,9 +84,9 @@
 #define TRACE
 #endif
 
-
 int halfsiphash(const unsigned char *in, const size_t inlen, const unsigned char *k,
                 unsigned char *out, const size_t outlen) {
+
     assert((outlen == sizeof(uint32_t)) || (outlen == sizeof(uint64_t)));
     uint32_t v0 = 0;
     uint32_t v1 = 0;
