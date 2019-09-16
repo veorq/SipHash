@@ -85,8 +85,8 @@
 #endif
 
 
-int halfsiphash(const char *in, const size_t inlen, const char *k,
-                char *out, const size_t outlen) {
+int halfsiphash(const unsigned char *in, const size_t inlen, const unsigned char *k,
+                unsigned char *out, const size_t outlen) {
     assert((outlen == sizeof(uint32_t)) || (outlen == sizeof(uint64_t)));
     uint32_t v0 = 0;
     uint32_t v1 = 0;
@@ -96,7 +96,7 @@ int halfsiphash(const char *in, const size_t inlen, const char *k,
     uint32_t k1 = CHARTO32_LE(k + sizeof(uint32_t));
     uint32_t m;
     int i;
-    const char *end = in + inlen - (inlen % sizeof(uint32_t));
+    const unsigned char *end = in + inlen - (inlen % sizeof(uint32_t));
     const int left = inlen & (sizeof(uint32_t) - 1);
     uint32_t b = ((uint32_t)inlen) << 24;
     v3 ^= k1;
