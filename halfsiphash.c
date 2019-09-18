@@ -78,7 +78,7 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
     int i;
     const uint8_t *end = in + inlen - (inlen % sizeof(uint32_t));
     const int left = inlen & (sizeof(uint32_t) - 1);
-    uint32_t b = ((uint32_t)inlen) << 24;
+    uint32_t b = ((uint32_t)(inlen * (CHAR_BIT / 8))) << 24;
     v3 ^= k1;
     v2 ^= k0;
     v1 ^= k1;
