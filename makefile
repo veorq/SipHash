@@ -3,6 +3,14 @@ CFLAGS=-Wall --std=c99
 SRC=siphash.c halfsiphash.c test.c
 BIN=test debug vectors
 
+ifneq ($(cROUNDS),)
+CFLAGS:=$(CFLAGS) -DcROUNDS=$(cROUNDS)
+endif
+
+ifneq ($(dROUNDS),)
+CFLAGS:=$(CFLAGS) -DdROUNDS=$(dROUNDS)
+endif
+
 all:                    $(BIN)
 
 test:                   $(SRC)
