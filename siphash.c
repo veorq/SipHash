@@ -67,10 +67,10 @@
 #ifdef DEBUG
 #define TRACE                                                                  \
     do {                                                                       \
-        printf("(%3zu) v0 %016"PRIx64"\n", inlen, v0);                          \
-        printf("(%3zu) v1 %016"PRIx64"\n", inlen, v1);                          \
-        printf("(%3zu) v2 %016"PRIx64"\n", inlen, v2);                          \
-        printf("(%3zu) v3 %016"PRIx64"\n", inlen, v3);                          \
+        printf("(%3zu) v0 %016"PRIx64"\n", inlen, v0);                         \
+        printf("(%3zu) v1 %016"PRIx64"\n", inlen, v1);                         \
+        printf("(%3zu) v2 %016"PRIx64"\n", inlen, v2);                         \
+        printf("(%3zu) v3 %016"PRIx64"\n", inlen, v3);                         \
     } while (0)
 #else
 #define TRACE
