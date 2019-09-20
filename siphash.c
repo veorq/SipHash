@@ -31,10 +31,10 @@
 #define ROTL(x, b) (uint64_t)(((x) << (b)) | ((x) >> (64 - (b))))
 
 #define U32TO8_LE(p, v)                                                        \
-    (p)[0] = (uint8_t)((v));                                                   \
-    (p)[1] = (uint8_t)((v) >> 8);                                              \
-    (p)[2] = (uint8_t)((v) >> 16);                                             \
-    (p)[3] = (uint8_t)((v) >> 24);
+    (p)[0] = (unsigned char)((v)) & 0xff;                                      \
+    (p)[1] = (unsigned char)((v) >> 8) & 0xff;                                 \
+    (p)[2] = (unsigned char)((v) >> 16) & 0xff;                                \
+    (p)[3] = (unsigned char)((v) >> 24) & 0xff;
 
 #define U64TO8_LE(p, v)                                                        \
     U32TO8_LE((p), (uint32_t)((v)));                                           \
@@ -76,8 +76,8 @@
 #define TRACE
 #endif
 
-int siphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
-            uint8_t *out, const size_t outlen) {
+int siphash(const unsigned char *in, const size_t inlen,
+            const unsigned char *k, unsigned char *out, const size_t outlen) {
 
     assert((outlen == 8) || (outlen == 16));
     uint64_t v0 = UINT64_C(0x736f6d6570736575);
@@ -88,7 +88,7 @@ int siphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
     uint64_t k1 = U8TO64_LE(k + 8);
     uint64_t m;
     int i;
-    const uint8_t *end = in + inlen - (inlen % sizeof(uint64_t));
+    const unsigned char *end = in + inlen - (inlen % 8);
     const int left = inlen & 7;
     uint64_t b = ((uint64_t)inlen) << 56;
     v3 ^= k1;

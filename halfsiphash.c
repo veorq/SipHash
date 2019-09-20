@@ -30,10 +30,10 @@
 #define ROTL(x, b) (uint32_t)(((x) << (b)) | ((x) >> (32 - (b))))
 
 #define U32TO8_LE(p, v)                                                        \
-    (p)[0] = (uint8_t)((v));                                                   \
-    (p)[1] = (uint8_t)((v) >> 8);                                              \
-    (p)[2] = (uint8_t)((v) >> 16);                                             \
-    (p)[3] = (uint8_t)((v) >> 24);
+    (p)[0] = (unsigned char)((v)) & 0xff;                                      \
+    (p)[1] = (unsigned char)((v) >> 8) & 0xff;                                 \
+    (p)[2] = (unsigned char)((v) >> 16) & 0xff;                                \
+    (p)[3] = (unsigned char)((v) >> 24) & 0xff;
 
 #define U8TO32_LE(p)                                                           \
     (((uint32_t)((p)[0])) | ((uint32_t)((p)[1]) << 8) |                        \
@@ -69,8 +69,9 @@
 #define TRACE
 #endif
 
-int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
-                uint8_t *out, const size_t outlen) {
+int halfsiphash(const unsigned char *in, const size_t inlen,
+                const unsigned char *k, unsigned char *out,
+                const size_t outlen) {
 
     assert((outlen == 4) || (outlen == 8));
     uint32_t v0 = 0;
@@ -81,7 +82,7 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
     uint32_t k1 = U8TO32_LE(k + 4);
     uint32_t m;
     int i;
-    const uint8_t *end = in + inlen - (inlen % sizeof(uint32_t));
+    const unsigned char *end = in + inlen - (inlen % 4);
     const int left = inlen & 3;
     uint32_t b = ((uint32_t)inlen) << 24;
     v3 ^= k1;

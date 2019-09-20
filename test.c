@@ -24,16 +24,16 @@
     }                                                                          \
     printf("},\n");
 
-int siphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
-            uint8_t *out, const size_t outlen);
-int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
-                uint8_t *out, const size_t outlen);
+int siphash(const unsigned char *in, const size_t inlen, const unsigned char *k,
+            unsigned char *out, const size_t outlen);
+int halfsiphash(const unsigned char *in, const size_t inlen, const unsigned char *k,
+                unsigned char *out, const size_t outlen);
 
 const char *functions[4] = {
-    "const uint8_t vectors_sip64[64][8] =",
-    "const uint8_t vectors_sip128[64][16] =",
-    "const uint8_t vectors_hsip32[64][4] =",
-    "const uint8_t vectors_hsip64[64][8] =",
+    "const unsigned char vectors_sip64[64][8] =",
+    "const unsigned char vectors_sip128[64][16] =",
+    "const unsigned char vectors_hsip32[64][4] =",
+    "const unsigned char vectors_hsip64[64][8] =",
 };
 
 const char *labels[4] = {
@@ -44,7 +44,7 @@ const char *labels[4] = {
 size_t lengths[4] = {8, 16, 4, 8};
 
 int main() {
-    uint8_t in[64], out[16], k[16];
+    unsigned char in[64], out[16], k[16];
     int i;
 #ifndef GETVECTORS
     int fails = 0;
@@ -70,19 +70,19 @@ int main() {
 #ifdef GETVECTORS
             PRINTHASH(len);
 #else
-            const uint8_t *v = NULL;
+            const unsigned char *v = NULL;
             switch (version) {
             case 0:
-                v = (uint8_t *)vectors_sip64;
+                v = (unsigned char *)vectors_sip64;
                 break;
             case 1:
-                v = (uint8_t *)vectors_sip128;
+                v = (unsigned char *)vectors_sip128;
                 break;
             case 2:
-                v = (uint8_t *)vectors_hsip32;
+                v = (unsigned char *)vectors_hsip32;
                 break;
             case 3:
-                v = (uint8_t *)vectors_hsip64;
+                v = (unsigned char *)vectors_hsip64;
                 break;
             default:
                 break;
