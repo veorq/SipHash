@@ -15,6 +15,7 @@
    <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 #include <assert.h>
+#include <inttypes.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -67,14 +68,10 @@
 #ifdef DEBUG
 #define TRACE                                                                  \
     do {                                                                       \
-        printf("(%3d) v0 %08x %08x\n", (int)inlen, (uint32_t)(v0 >> 32),       \
-               (uint32_t)v0);                                                  \
-        printf("(%3d) v1 %08x %08x\n", (int)inlen, (uint32_t)(v1 >> 32),       \
-               (uint32_t)v1);                                                  \
-        printf("(%3d) v2 %08x %08x\n", (int)inlen, (uint32_t)(v2 >> 32),       \
-               (uint32_t)v2);                                                  \
-        printf("(%3d) v3 %08x %08x\n", (int)inlen, (uint32_t)(v3 >> 32),       \
-               (uint32_t)v3);                                                  \
+        printf("(%3zu) v0 %016"PRIx64"\n", inlen, v0);                         \
+        printf("(%3zu) v1 %016"PRIx64"\n", inlen, v1);                         \
+        printf("(%3zu) v2 %016"PRIx64"\n", inlen, v2);                         \
+        printf("(%3zu) v3 %016"PRIx64"\n", inlen, v3);                         \
     } while (0)
 #else
 #define TRACE
