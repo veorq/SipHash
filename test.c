@@ -47,7 +47,7 @@ size_t lengths[4] = {8, 16, 4, 8};
 int siphash_test() {
     uint8_t in[64], out[16], k[16];
     int i;
-    bool any_failed;
+    bool any_failed = false;
 #ifndef GETVECTORS
     int fails = 0;
 #endif
