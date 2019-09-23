@@ -26,8 +26,9 @@
 
 int siphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
             uint8_t *out, const size_t outlen);
-int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
-                uint8_t *out, const size_t outlen);
+int halfsiphash(const unsigned char *in, const size_t inlen,
+                const unsigned char *k, unsigned char *out,
+                const size_t outlen);
 
 const char *functions[4] = {
     "const uint8_t vectors_sip64[64][8] =",
