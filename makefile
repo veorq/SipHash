@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-Wall --std=c99 
-SRC=siphash.c halfsiphash.c vectors.c testmain.c test.c
+SRC=siphash.c halfsiphash.c test.c testmain.c vectors.c
 BIN=test debug vectors
 
 ifneq ($(cROUNDS),)
