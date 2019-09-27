@@ -13,6 +13,7 @@
  */
 
 #include "vectors.h"
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -46,6 +47,7 @@ size_t lengths[4] = {8, 16, 4, 8};
 int siphash_test() {
     uint8_t in[64], out[16], k[16];
     int i;
+    bool any_failed = false;
 #ifndef GETVECTORS
     int fails = 0;
 #endif
@@ -91,6 +93,7 @@ int siphash_test() {
             if (memcmp(out, v + (i * len), len)) {
                 printf("fail for %d bytes\n", i);
                 fails++;
+                any_failed = true;
             }
 #endif
         }
@@ -105,5 +108,5 @@ int siphash_test() {
 #endif
     }
 
-    return 0;
+    return any_failed;
 }
