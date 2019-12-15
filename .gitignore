@@ -16,3 +16,8 @@
 *.exe
 *.out
 *.app
+
+# IDE Folders
+/.code/
+/.idea/
+/.vs/
