@@ -1,15 +1,66 @@
 # SipHash
 
-Reference implementation of SipHash, a family of pseudorandom functions
-optimized for speed on short messages.
+SipHash is a family of pseudorandom functions (PRFs) optimized for speed on short messages.
+This is the reference C code of SipHash: portable, simple, optimized for clarify and debugging.
 
-SipHash was designed as a mitigation to [hash-flooding DoS
-attacks](https://131002.net/siphash/siphashdos_29c3_slides.pdf).
-It is now used in the hash tables implementation of Python, Ruby, Perl
-5, etc.
+SipHash was designed in 2012 by [Jean-Philippe Aumasson](https://aumasson.jp)
+and [Daniel J. Bernstein](http://cr.yp.to) as a defense against [hash-flooding
+DoS attacks](https://aumasson.net/siphash/siphashdos_29c3_slides.pdf).
 
-SipHash was designed by [Jean-Philippe Aumasson](https://131002.net) and
-[Daniel J. Bernstein](http://cr.yp.to). 
+SipHash is:
+
+* *Simpler and faster* on short messages than previous cryptographic
+algorithms, such as MACs based on universal hashing.
+
+* *Competitive in performance* with insecure non-cryptographic algorithms, such as [fhhash](https://github.com/cbreeden/fxhash).
+
+* *Cryptographically secure*, with no sign of weakness despite multiple [cryptanalysis](https://eprint.iacr.org/2019/865) [projects](https://eprint.iacr.org/2019/865) by leading cryptographers.
+
+* *Battle-tested*, with successful integration in OSs (Linux kernel, OpenBSD,
+FreeBSD), languages (Perl, Python, Ruby, etc.), libraries (OpenSSL libcrypto,
+Sodium, etc.) and applications (Wireguard, Redis, etc.).
+
+As a secure pseudorandom function (a.k.a. keyed hash function), SipHash can also be used as a secure message authentication code (MAC).
+But SipHash is *not a hash* in the sense of general-purpose key-less hash function such as BLAKE3 or SHA-3.
+SipHash should therefore always be used with a secret key in order to be secure.
+
+
+## Variants
+
+The default SipHash is *SipHash-2-4*: it takes a 128-bit key, does 2 compression
+rounds, 4 finalization rounds, and returns a 64-bit tag.
+
+Variants can use a different number of rounds. For example, we proposed *SipHash-4-8* as a conservative version.
+
+The following versions are not described in the paper but were designed and analyzed to fulfill applications' needs:
+
+* *SipHash-128* returns a 128-bit tag instead of 64-bit. Versions with specified number of rounds are SipHash-2-4-128, SipHash4-8-128, and so on.
+
+* *HalfSipHash* works with 32-bit words instead of 64-bit, takes a 64-bit key,
+and returns 32-bit or 64-bit tags. For example, HalfSipHash-2-4-32 has 2
+compression rounds, 4 finalization rounds, and returns a 32-bit tag.
+
+
+## Security
+
+(Half)SipHash-*c*-*d* with *c* ≥ 2 and *d* ≥ 4 is expected to provide the maximum PRF
+security for any function with the same key and output size.
+
+The standard PRF security goal allow the attacker access to the output of SipHash on messages chosen adaptively by the attacker.
+
+Security is limited by the key size (128 bits). 
+Attackers searching 2<sup>*s*</sup> keys have chance 2<sup>*s*−128</sup> of finding
+the SipHash key. 
+Security is also limited by the output size. In particular, when
+SipHash is used as a MAC, an attacker who blindly tries 2<sup>*s*</sup> tags will
+succeed with probability 2<sup>*s*-*t*</sup>, if *t* is that tag's bit size.
+
+
+## Research
+
+* [Research paper](https://www.aumasson.jp/siphash/siphash.pdf) "SipHash: a fast short-input PRF" (accepted at INDOCRYPT 2012)
+* [Slides](https://cr.yp.to/talks/2012.12.12/slides.pdf) of the presentation of SipHash at INDOCRYPT 2012 (Bernstein)
+* [Slides](https://www.aumasson.jp/siphash/siphash_slides.pdf) of the presentation of SipHash at the DIAC workshop (Aumasson)
 
 
 ## Usage
@@ -22,11 +73,10 @@ Running
 
 will build tests for 
 
-* SipHash-2-4, the default version of SipHash returning 64-bit tags
-* SipHash-2-4 with doubled tag size, i.e. 128-bit tags
-* HalfSipHash-2-4, a version of SipHash working with 32-bit words and
-  returning 32-bit tags by default
-* HalfSipHash-2-4 with doubled tag size, i.e. 64-bit tags
+* SipHash-2-4-64
+* SipHash-2-4-128
+* HalfSipHash-2-4-32
+* HalfSipHash-2-4-64
 
 
 ```C
@@ -59,21 +109,3 @@ make cROUNDS=2 dROUNDS=4
 Obviously, if the number of rounds is modified then the test vectors
 won't verify.
 
-
-
-## Intellectual property
-
-The SipHash reference code is released under [CC0
-license](https://creativecommons.org/publicdomain/zero/1.0/), a public
-domain-like licence.
-
-We aren't aware of any patents or patent applications relevant to
-SipHash, and we aren't planning to apply for any.
-
-
-## References
-
-The [SipHash page](https://131002.net/siphash) includes
-* a list of third-party implementations and modules
-* a list of projects using SipHash
-* references to cryptanalysis results

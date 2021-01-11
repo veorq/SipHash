@@ -29,6 +29,3 @@ format:
 		        clang-format -style="{BasedOnStyle: llvm, IndentWidth: 4}" \
 			-i *.c *.h 
 
-dist:                   clean
-			cd ..; \
-	                tar zcf SipHash-`date +%Y%m%d%H%M`.tgz SipHash/*
