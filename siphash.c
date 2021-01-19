@@ -1,7 +1,7 @@
 /*
    SipHash reference C implementation
 
-   Copyright (c) 2012-2016 Jean-Philippe Aumasson
+   Copyright (c) 2012-2021 Jean-Philippe Aumasson
    <jeanphilippe.aumasson@gmail.com>
    Copyright (c) 2012-2014 Daniel J. Bernstein <djb@cr.yp.to>
 
@@ -14,11 +14,12 @@
    this software. If not, see
    <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
+
+#include "siphash.h"
 #include <assert.h>
-#include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <string.h>
+
 
 /* default: SipHash-2-4 */
 #ifndef cROUNDS
@@ -75,6 +76,7 @@
 #else
 #define TRACE
 #endif
+
 
 int siphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
             uint8_t *out, const size_t outlen) {
