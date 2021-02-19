@@ -20,13 +20,12 @@
 #include <stdint.h>
 #include <stdio.h>
 
-
 /* default: SipHash-2-4 */
 #ifndef cROUNDS
-    #define cROUNDS 2
+#define cROUNDS 2
 #endif
 #ifndef dROUNDS
-    #define dROUNDS 4
+#define dROUNDS 4
 #endif
 
 #define ROTL(x, b) (uint64_t)(((x) << (b)) | ((x) >> (64 - (b))))
@@ -68,15 +67,14 @@
 #ifdef DEBUG
 #define TRACE                                                                  \
     do {                                                                       \
-        printf("(%3zu) v0 %016"PRIx64"\n", inlen, v0);                         \
-        printf("(%3zu) v1 %016"PRIx64"\n", inlen, v1);                         \
-        printf("(%3zu) v2 %016"PRIx64"\n", inlen, v2);                         \
-        printf("(%3zu) v3 %016"PRIx64"\n", inlen, v3);                         \
+        printf("(%3zu) v0 %016" PRIx64 "\n", inlen, v0);                       \
+        printf("(%3zu) v1 %016" PRIx64 "\n", inlen, v1);                       \
+        printf("(%3zu) v2 %016" PRIx64 "\n", inlen, v2);                       \
+        printf("(%3zu) v3 %016" PRIx64 "\n", inlen, v3);                       \
     } while (0)
 #else
 #define TRACE
 #endif
-
 
 int siphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
             uint8_t *out, const size_t outlen) {

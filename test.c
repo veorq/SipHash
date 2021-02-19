@@ -1,18 +1,20 @@
 /*
    SipHash reference C implementation
-   Copyright (c) 2012-2021 Jean-Philippe Aumasson <jeanphilippe.aumasson@gmail.com>
-   Copyright (c) 2012 Daniel J. Bernstein <djb@cr.yp.to>
+   Copyright (c) 2012-2021 Jean-Philippe Aumasson
+   <jeanphilippe.aumasson@gmail.com> Copyright (c) 2012 Daniel J. Bernstein
+   <djb@cr.yp.to>
 
    To the extent possible under law, the author(s) have dedicated all copyright
    and related and neighboring rights to this software to the public domain
    worldwide. This software is distributed without any warranty.
-   You should have received a copy of the CC0 Public Domain Dedication along with
-   this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+   You should have received a copy of the CC0 Public Domain Dedication along
+   with this software. If not, see
+   <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-#include "vectors.h"
-#include "siphash.h"
 #include "halfsiphash.h"
+#include "siphash.h"
+#include "vectors.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -36,8 +38,8 @@ const char *functions[4] = {
 };
 
 const char *labels[4] = {
-    "SipHash-2-4-64", 
-    "SipHash-2-4-128", 
+    "SipHash-2-4-64",
+    "SipHash-2-4-128",
     "HalfSipHash-2-4-32",
     "HalfSipHash-2-4-64",
 };
