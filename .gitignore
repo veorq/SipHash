@@ -26,3 +26,5 @@ vectors
 /.code/
 /.idea/
 /.vs/
+
+debug.dSYM/

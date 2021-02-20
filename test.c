@@ -27,9 +27,6 @@
     }                                                                          \
     printf("},\n");
 
-int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
-                uint8_t *out, const size_t outlen);
-
 const char *functions[4] = {
     "const uint8_t vectors_sip64[64][8] =",
     "const uint8_t vectors_sip128[64][16] =",

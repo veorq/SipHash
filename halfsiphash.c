@@ -69,19 +69,22 @@
 #define TRACE
 #endif
 
-int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
-                uint8_t *out, const size_t outlen) {
+int halfsiphash(const void *in, const size_t inlen, const void *k, uint8_t *out,
+                const size_t outlen) {
+
+    unsigned char *ni = (unsigned char *)in;
+    unsigned char *kk = (unsigned char *)k;
 
     assert((outlen == 4) || (outlen == 8));
     uint32_t v0 = 0;
     uint32_t v1 = 0;
     uint32_t v2 = UINT32_C(0x6c796765);
     uint32_t v3 = UINT32_C(0x74656462);
-    uint32_t k0 = U8TO32_LE(k);
-    uint32_t k1 = U8TO32_LE(k + 4);
+    uint32_t k0 = U8TO32_LE(kk);
+    uint32_t k1 = U8TO32_LE(kk + 4);
     uint32_t m;
     int i;
-    const uint8_t *end = in + inlen - (inlen % sizeof(uint32_t));
+    const uint8_t *end = ni + inlen - (inlen % sizeof(uint32_t));
     const int left = inlen & 3;
     uint32_t b = ((uint32_t)inlen) << 24;
     v3 ^= k1;
@@ -92,8 +95,8 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
     if (outlen == 8)
         v1 ^= 0xee;
 
-    for (; in != end; in += 4) {
-        m = U8TO32_LE(in);
+    for (; ni != end; ni += 4) {
+        m = U8TO32_LE(ni);
         v3 ^= m;
 
         TRACE;
@@ -105,11 +108,11 @@ int halfsiphash(const uint8_t *in, const size_t inlen, const uint8_t *k,
 
     switch (left) {
     case 3:
-        b |= ((uint32_t)in[2]) << 16;
+        b |= ((uint32_t)ni[2]) << 16;
     case 2:
-        b |= ((uint32_t)in[1]) << 8;
+        b |= ((uint32_t)ni[1]) << 8;
     case 1:
-        b |= ((uint32_t)in[0]);
+        b |= ((uint32_t)ni[0]);
         break;
     case 0:
         break;
