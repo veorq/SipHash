@@ -72,8 +72,8 @@
 int halfsiphash(const void *in, const size_t inlen, const void *k, uint8_t *out,
                 const size_t outlen) {
 
-    unsigned char *ni = (unsigned char *)in;
-    unsigned char *kk = (unsigned char *)k;
+    const unsigned char *ni = (const unsigned char *)in;
+    const unsigned char *kk = (const unsigned char *)k;
 
     assert((outlen == 4) || (outlen == 8));
     uint32_t v0 = 0;
@@ -84,7 +84,7 @@ int halfsiphash(const void *in, const size_t inlen, const void *k, uint8_t *out,
     uint32_t k1 = U8TO32_LE(kk + 4);
     uint32_t m;
     int i;
-    const uint8_t *end = ni + inlen - (inlen % sizeof(uint32_t));
+    const unsigned char *end = ni + inlen - (inlen % sizeof(uint32_t));
     const int left = inlen & 3;
     uint32_t b = ((uint32_t)inlen) << 24;
     v3 ^= k1;
