@@ -9,7 +9,7 @@ This is the reference C code of SipHash: portable, simple, optimized for clarify
 
 SipHash was designed in 2012 by [Jean-Philippe Aumasson](https://aumasson.jp)
 and [Daniel J. Bernstein](http://cr.yp.to) as a defense against [hash-flooding
-DoS attacks](https://aumasson.net/siphash/siphashdos_29c3_slides.pdf).
+DoS attacks](https://aumasson.jp/siphash/siphashdos_29c3_slides.pdf).
 
 SipHash is:
 
