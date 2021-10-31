@@ -109,8 +109,10 @@ int halfsiphash(const void *in, const size_t inlen, const void *k, uint8_t *out,
     switch (left) {
     case 3:
         b |= ((uint32_t)ni[2]) << 16;
+        /* FALLTHRU */
     case 2:
         b |= ((uint32_t)ni[1]) << 8;
+        /* FALLTHRU */
     case 1:
         b |= ((uint32_t)ni[0]);
         break;
