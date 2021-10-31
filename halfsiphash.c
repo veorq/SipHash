@@ -13,11 +13,10 @@
    this software. If not, see
    <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
+#include "halfsiphash.h"
 #include <assert.h>
-#include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <string.h>
 
 /* default: SipHash-2-4 */
 #ifndef cROUNDS
