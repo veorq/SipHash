@@ -8,7 +8,7 @@ SipHash is a family of pseudorandom functions (PRFs) optimized for speed on shor
 This is the reference C code of SipHash: portable, simple, optimized for clarify and debugging.
 
 SipHash was designed in 2012 by [Jean-Philippe Aumasson](https://aumasson.jp)
-and [Daniel J. Bernstein](http://cr.yp.to) as a defense against [hash-flooding
+and [Daniel J. Bernstein](https://cr.yp.to) as a defense against [hash-flooding
 DoS attacks](https://aumasson.jp/siphash/siphashdos_29c3_slides.pdf).
 
 SipHash is:
