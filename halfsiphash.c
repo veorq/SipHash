@@ -56,7 +56,7 @@
         v2 = ROTL(v2, 16);                                                     \
     } while (0)
 
-#ifdef DEBUG
+#ifdef DEBUG_SIPHASH
 #define TRACE                                                                  \
     do {                                                                       \
         printf("(%3zu) v0 %08" PRIx32 "\n", inlen, v0);                        \
