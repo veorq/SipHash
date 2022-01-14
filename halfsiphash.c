@@ -15,8 +15,8 @@
  */
 #include "halfsiphash.h"
 #include <assert.h>
+#include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 
 /* default: SipHash-2-4 */
 #ifndef cROUNDS
@@ -57,6 +57,7 @@
     } while (0)
 
 #ifdef DEBUG
+#include <stdio.h>
 #define TRACE                                                                  \
     do {                                                                       \
         printf("(%3zu) v0 %08" PRIx32 "\n", inlen, v0);                        \
