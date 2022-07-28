@@ -5,7 +5,7 @@ CC0-1.0](https://licensebuttons.net/l/zero/1.0/80x15.png)](http://creativecommon
 
 
 SipHash is a family of pseudorandom functions (PRFs) optimized for speed on short messages.
-This is the reference C code of SipHash: portable, simple, optimized for clarify and debugging.
+This is the reference C code of SipHash: portable, simple, optimized for clarity and debugging.
 
 SipHash was designed in 2012 by [Jean-Philippe Aumasson](https://aumasson.jp)
 and [Daniel J. Bernstein](https://cr.yp.to) as a defense against [hash-flooding
