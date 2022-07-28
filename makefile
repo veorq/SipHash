@@ -23,7 +23,7 @@ test:                   $(SRC)
 			$(CC) $(CFLAGS) $^ -o $@ 
 
 debug:                  $(SRC) 
-			$(CC) $(CFLAGS) -g $^ -o $@ -DDEBUG
+			$(CC) $(CFLAGS) -g $^ -o $@ -DDEBUG_SIPHASH
 
 vectors:                $(SRC) 
 			$(CC) $(CFLAGS) $^ -o $@ -DGETVECTORS
