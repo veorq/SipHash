@@ -21,7 +21,7 @@ algorithms, such as MACs based on universal hashing.
 * *Cryptographically secure*, with no sign of weakness despite multiple [cryptanalysis](https://eprint.iacr.org/2019/865) [projects](https://eprint.iacr.org/2019/865) by leading cryptographers.
 
 * *Battle-tested*, with successful integration in OSs (Linux kernel, OpenBSD,
-FreeBSD), languages (Perl, Python, Ruby, etc.), libraries (OpenSSL libcrypto,
+FreeBSD, FreeRTOS), languages (Perl, Python, Ruby, etc.), libraries (OpenSSL libcrypto,
 Sodium, etc.) and applications (Wireguard, Redis, etc.).
 
 As a secure pseudorandom function (a.k.a. keyed hash function), SipHash can also be used as a secure message authentication code (MAC).
