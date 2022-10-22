@@ -54,8 +54,8 @@ security for any function with the same key and output size.
 
 The standard PRF security goal allow the attacker access to the output of SipHash on messages chosen adaptively by the attacker.
 
-Security is limited by the key size (128 bits). 
-Attackers searching 2<sup>*s*</sup> keys have chance 2<sup>*s*−128</sup> of finding
+Security is limited by the key size (128 bits for SipHash), such that
+attackers searching 2<sup>*s*</sup> keys have chance 2<sup>*s*−128</sup> of finding
 the SipHash key. 
 Security is also limited by the output size. In particular, when
 SipHash is used as a MAC, an attacker who blindly tries 2<sup>*s*</sup> tags will

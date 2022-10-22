@@ -1,7 +1,7 @@
 /*
    SipHash reference C implementation
 
-   Copyright (c) 2012-2021 Jean-Philippe Aumasson
+   Copyright (c) 2012-2022 Jean-Philippe Aumasson
    <jeanphilippe.aumasson@gmail.com>
    Copyright (c) 2012-2014 Daniel J. Bernstein <djb@cr.yp.to>
 
@@ -78,6 +78,14 @@
 #define TRACE
 #endif
 
+/*
+    Computes a SipHash value
+    *in: pointer to input data (read-only)
+    inlen: input data length in bytes (any size_t value)
+    *k: pointer to the key data (read-only), must be 16 bytes 
+    *out: pointer to output data (write-only), outlen bytes must be allocated
+    outlen: length of the output in bytes, must be 8 or 16
+*/
 int siphash(const void *in, const size_t inlen, const void *k, uint8_t *out,
             const size_t outlen) {
 
