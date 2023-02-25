@@ -115,3 +115,7 @@ make cROUNDS=2 dROUNDS=4
 Obviously, if the number of rounds is modified then the test vectors
 won't verify.
 
+## Intellectual property
+
+This code is copyright (c) 2014-2023 Jean-Philippe Aumasson, Daniel J.
+Bernstein. It is dual-licensed [CC0](./LICENCE_CC0) and [MIT](./LICENSE_MIT).
