@@ -118,4 +118,9 @@ won't verify.
 ## Intellectual property
 
 This code is copyright (c) 2014-2023 Jean-Philippe Aumasson, Daniel J.
-Bernstein. It is dual-licensed [CC0](./LICENCE_CC0) and [MIT](./LICENSE_MIT).
+Bernstein. It is multi-licensed under
+
+* [CC0](./LICENCE_CC0)
+* [MIT](./LICENSE_MIT).
+* [Apache 2.0 with LLVM wxceptions](./LICENSE_A2LLVM).
+
