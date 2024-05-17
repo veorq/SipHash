@@ -79,8 +79,8 @@
     *out: pointer to output data (write-only), outlen bytes must be allocated
     outlen: length of the output in bytes, must be 4 or 8
 */
-int halfsiphash(const void *in, const size_t inlen, const void *k, uint8_t *out,
-                const size_t outlen) {
+void halfsiphash(const void *in, const size_t inlen, const void *k,
+                 uint8_t *out, const size_t outlen) {
 
     const unsigned char *ni = (const unsigned char *)in;
     const unsigned char *kk = (const unsigned char *)k;
@@ -151,7 +151,7 @@ int halfsiphash(const void *in, const size_t inlen, const void *k, uint8_t *out,
     U32TO8_LE(out, b);
 
     if (outlen == 4)
-        return 0;
+        return;
 
     v1 ^= 0xdd;
 
@@ -161,6 +161,4 @@ int halfsiphash(const void *in, const size_t inlen, const void *k, uint8_t *out,
 
     b = v1 ^ v3;
     U32TO8_LE(out + 4, b);
-
-    return 0;
 }
